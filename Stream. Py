@@ -1,0 +1,33 @@
+import random
+import time
+def generate_reading(sensor_id):
+    return {
+        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "sensor_id": sensor_id,
+        "value": round(random.uniform(15, 40), 1)
+    }
+def process_stream():
+    window = []
+    try:
+        while True:
+        
+            reading = generate_reading(random.randint(1, 3))
+            window.append(reading["value"])
+            if len(window) > 5:
+                window.pop(0)
+            
+          
+            avg = sum(window) / len(window)
+            anomaly = "YES" if reading["value"] > 30 else "NO"
+            
+      
+            print(f"Reading: {reading}")
+            print(f"Rolling Avg: {avg:.2f} | Anomaly: {anomaly}")
+            print("-" * 40)
+            
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("\nStream stopped.")
+if __name__ == "__main__":
+    print("Starting stream simulation...")
+    process_stream()
